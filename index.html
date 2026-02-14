@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Preeti Shoe palace | Premium Footwear</title>
+
+  <!-- Base Styles -->
+  <link rel="stylesheet" href="assets/base.css">
+  <!-- Page-Specific Styles -->
+  <link rel="stylesheet" href="assets/index.css">
+  <script src="assets/index.js" defer></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    html { scroll-behavior: smooth; }
+    
+    /* Enhanced Dark Mode Toggle Styles */
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    #modeToggle {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: 0.5rem;
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    #modeToggle::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      border-radius: 50%;
+      z-index: -1;
+    }
+    
+    #modeToggle:hover {
+      transform: rotate(180deg) scale(1.1);
+    }
+    
+    #modeToggle:hover::before {
+      opacity: 0.1;
+    }
+    
+    body.dark-mode #modeToggle:hover::before {
+      opacity: 0.2;
+      background: linear-gradient(135deg, #ff6b6b 0%, #ff9e6b 100%);
+    }
+    
+    /* Mobile menu toggle */
+    .mobile-menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: inherit;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      transition: background-color 0.3s ease;
+    }
+    
+    .mobile-menu-toggle:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+    
+    body.dark-mode .mobile-menu-toggle:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    /* Mobile Navigation */
+    @media (max-width: 768px) {
+      .mobile-menu-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .saas-nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #fff;
+        flex-direction: column;
+        padding: 1rem;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        z-index: 1000;
+      }
+      
+      body.dark-mode .saas-nav-links {
+        background: #2a2a2a;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      }
+      
+      .saas-nav-links.active {
+        display: flex;
+        animation: slideDown 0.3s ease;
+      }
+      
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      .saas-nav-link {
+        padding: 0.8rem 0;
+        width: 100%;
+        text-align: center;
+      }
+    }
+    
+    /* Additional styles for the hero with cooldown */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      padding: 2rem 0;
+      background: url("https://images.unsplash.com/photo-1545179767-1198fd4a3e1b?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0") no-repeat center/cover;
+    }
+    
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      transition: background 0.3s ease;
+    }
+    
+    body.dark-mode .hero::before {
+      background: rgba(0, 0, 0, 0.7);
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+    
+    .cooldown-container {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      color: #333;
+      padding: 12px 20px;
+      border-radius: 30px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      z-index: 10;
+      animation: pulse 2s infinite;
+    }
+    
+    body.dark-mode .cooldown-container {
+      background: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    #cooldown-timer {
+      font-weight: 700;
+      color: #e63946;
+      font-size: 1.1rem;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .cooldown-container {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        justify-content: center;
+        flex-direction: column;
+        gap: 5px;
+        padding: 10px 15px;
+      }
+      
+      .hero-content {
+        margin-top: 60px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="container">
+      <nav class="saas-nav">
+        <a href="/" class="saas-logo">
+          <span class="logo-icon">👟</span> Preeti shoe Palace
+        </a>
+
+        <div class="saas-nav-links">
+          <a href="index.html" class="saas-nav-link active">Home</a>
+          <a href="shop.html" class="saas-nav-link">Shop</a>
+          <a href="about.html" class="saas-nav-link">About</a>
+          <a href="contact.html" class="saas-nav-link">Contact</a>
+        </div>
+        
+        <div class="nav-actions">
+          <button id="modeToggle" aria-label="Toggle dark mode">🌓</button>
+          <button class="mobile-menu-toggle" aria-label="Mobile menu">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO with Cooldown Timer -->
+  <section class="hero">
+    <!-- Cooldown Timer in Hero -->
+    <div class="cooldown-container">
+      <span>⚡ Clear Stock Cooldown!</span>
+      <div id="cooldown-timer">00:00:00</div>
+    </div>
+
+    <div class="hero-content">
+      <h1>Step into <span class="highlight">Style</span></h1>
+      <p class="hero-subtitle">Premium footwear crafted for comfort and performance</p>
+      <div class="hero-cta">
+        <a href="contact.html" class="btn-primary">Contact Us</a>
+        <a href="about.html" class="btn-secondary">Learn More</a>
+      </div>
+    </div>
+
+    <div class="scroll-indicator">
+      <i class="fas fa-chevron-down"></i>
+    </div>
+  </section>
+
+
+<section class="customer-reviews">
+  <h2>Customer Reviews</h2>
+  
+  <div class="reviews-slider-wrapper">
+    <div class="reviews-slider-container">
+      <div class="reviews-slider">
+        <div class="review-card">
+          <p>"Great product!"</p>
+          <div class="reviewer-info">John Doe</div>
+        </div>
+        <div class="review-card">
+          <p>"Excellent service."</p>
+          <div class="reviewer-info">Jane Smith</div>
+        </div>
+        <div class="review-card">
+          <p>"Will buy again!"</p>
+          <div class="reviewer-info">Alice Lee</div>
+        </div>
+        <div class="review-card">
+          <p>"Fast delivery and quality shoes."</p>
+          <div class="reviewer-info">Michael Brown</div>
+        </div>
+        <div class="review-card">
+          <p>"Highly recommend to friends!"</p>
+          <div class="reviewer-info">Sarah Wilson</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- FEATURED PRODUCTS -->
+  <section id="featured" class="featured-products featured-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Category Product</h2>
+        <a href="shop.html" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+      </div>
+      <div class="products">
+
+        <!-- Sneaker -->
+        <div class="product-card sneaker-category">
+          <div class="product-badge">SNEAKER</div>
+          <img src="https://images.unsplash.com/photo-1512374382149-233c42b6a83b?w=600&auto=format&fit=crop&q=60" alt="Nike Low Sneaker">
+          <div class="product-info">
+            <h3>Nike Low</h3>
+            <div class="product-meta">
+              <div class="product-colors">
+                <span class="color-option" style="background-color:#000;"></span>
+                <span class="color-option" style="background-color:#fff; border:1px solid #ddd;"></span>
+                <span class="color-option" style="background-color:#e63946;"></span>
+              </div>
+              <div class="product-price">Rs250.00</div>
+            </div>
+            <a href="shop.html" class="product-cta">Shop Now</a>
+          </div>
+        </div>
+
+        <!-- Sport -->
+        <div class="product-card sport-category">
+          <div class="product-badge sale">SPORT</div>
+          <img src="https://images.unsplash.com/photo-1529900748604-07564a03e7a6?w=600&auto=format&fit=crop&q=60" alt="Adidas Originals Sport Shoes">
+          <div class="product-info">
+            <h3>Adidas Originals</h3>
+            <div class="product-meta">
+              <div class="product-colors">
+                <span class="color-option" style="background-color:#e58d11;"></span>
+                <span class="color-option" style="background-color:#000;"></span>
+              </div>
+              <div class="product-price"><span class="original-price">Rs559.99</span> Rs499.99</div>
+            </div>
+            <a href="shop.html" class="product-cta">Shop Now</a>
+          </div>
+        </div>
+
+        <!-- Formal -->
+        <div class="product-card formal-category">
+          <div class="product-badge sale">FORMAL</div>
+          <img src="https://images.unsplash.com/photo-1696271026746-b55c30124d95?w=600&auto=format&fit=crop&q=60" alt="Cole Haan Oxfords">
+          <div class="product-info">
+            <h3>Cole Haan Oxfords</h3>
+            <div class="product-meta">
+              <div class="product-colors">
+                <span class="color-option" style="background-color:#6e5318;"></span>
+                <span class="color-option" style="background-color:#000;"></span>
+              </div>
+              <div class="product-price">RM149.99</div>
+            </div>
+            <a href="shop.html" class="product-cta">Shop Now</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features">
+    <div class="container">
+      <div class="features-grid">
+
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fas fa-truck"></i></div>
+          <h3>Free Shipping</h3>
+          <p>On all orders over Rs499</p>
+          <div class="feature-testimonial"><p>“Fast delivery every time!” – Naman</p></div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fas fa-undo"></i></div>
+          <h3>Easy Returns</h3>
+          <p>30-day return policy</p>
+          <div class="feature-testimonial"><p>“Returning products was super easy.” – pritak</p></div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fas fa-lock"></i></div>
+          <h3>Secure Payment</h3>
+          <p>100% secure checkout</p>
+          <div class="feature-testimonial"><p>“I always feel safe paying here.” – soniya</p></div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fas fa-headset"></i></div>
+          <h3>24/7 Support</h3>
+          <p>Dedicated support</p>
+          <div class="feature-testimonial"><p>“Customer service is amazing!” – Noah</p></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="newsletter">
+    <div class="container">
+      <div class="newsletter-content">
+        <h2>Stay Updated</h2>
+        <p>Subscribe to our newsletter for the latest releases and exclusive offers.</p>
+        <form class="newsletter-form">
+          <input type="email" placeholder="Your email address" required>
+          <button type="submit" class="btn-primary">Subscribe</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="modern-footer">
+    <div class="container">
+      <div class="footer-grid">
+
+        <div class="footer-col brand-col">
+          <div class="footer-logo"><span class="logo-icon">👟</span> Preeti shoe Palace</div>
+          <p class="footer-tagline">Premium footwear for every step of your journey.</p>
+          <div class="social-links">
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-col">
+          <h4 class="footer-heading">Shop</h4>
+          <ul class="footer-links">
+            <li><a href="#">Men's Shoes</a></li>
+            <li><a href="#">Women's Shoes</a></li>
+            <li><a href="#">New Arrivals</a></li>
+            <li><a href="#">Best Sellers</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-col">
+          <h4 class="footer-heading">Company</h4>
+          <ul class="footer-links">
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Sustainability</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+        </div>
+
+      </div>
+      
+      <div class="footer-bottom">
+  <div class="footer-copyright">
+    <p>&copy; 2025 Preeti shoe Palace. All rights reserved.</p>
+    <!-- <p>Images sourced from <a href="https://unsplash.com" target="_blank">Unsplash</a> (free license).</p> -->
+  </div>
+</div>
+
+        <div class="footer-legal">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Cookies</a>
+          <a href="#">Accessibility</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
